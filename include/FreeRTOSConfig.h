@@ -33,7 +33,7 @@
 /* Hardware description related definitions. **********************************/
 /******************************************************************************/
 
-#define configCPU_CLOCK_HZ    ( ( unsigned long ) 20000000 )
+#define configCPU_CLOCK_HZ    ( ( unsigned long ) 64000000 )
 
 /******************************************************************************/
 /* Scheduling behaviour related definitions. **********************************/
@@ -42,8 +42,8 @@
 #define configTICK_RATE_HZ                         ( 100U )
 #define configUSE_PREEMPTION                       1
 #define configUSE_TIME_SLICING                     1
-#define configUSE_PORT_OPTIMISED_TASK_SELECTION    0
-#define configUSE_TICKLESS_IDLE                    1
+#define configUSE_PORT_OPTIMISED_TASK_SELECTION    1
+#define configUSE_TICKLESS_IDLE                    0
 #define configMAX_PRIORITIES                       5U
 #define configMINIMAL_STACK_SIZE                   128U
 #define configMAX_TASK_NAME_LEN                    4U
@@ -61,7 +61,7 @@
 /* Software timer related definitions. ****************************************/
 /******************************************************************************/
 
-#define configUSE_TIMERS                1
+#define configUSE_TIMERS                0
 #define configTIMER_TASK_PRIORITY       ( configMAX_PRIORITIES - 1U )
 #define configTIMER_TASK_STACK_DEPTH    configMINIMAL_STACK_SIZE
 #define configTIMER_QUEUE_LENGTH        10U
@@ -82,7 +82,7 @@
 /******************************************************************************/
 
 #define configKERNEL_INTERRUPT_PRIORITY          0U
-#define configMAX_SYSCALL_INTERRUPT_PRIORITY     2U
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY     1U
 #define configMAX_API_CALL_INTERRUPT_PRIORITY    0U
 
 /******************************************************************************/
@@ -125,7 +125,7 @@
 #define INCLUDE_uxTaskGetStackHighWaterMark    1
 #define INCLUDE_xTaskGetIdleTaskHandle         1
 #define INCLUDE_eTaskGetState                  1
-#define INCLUDE_xTimerPendFunctionCall         1
+#define INCLUDE_xTimerPendFunctionCall         0
 #define INCLUDE_xTaskAbortDelay                1
 #define INCLUDE_xTaskGetHandle                 1
 #define INCLUDE_xTaskResumeFromISR             1

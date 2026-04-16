@@ -5,10 +5,14 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/cm3/scb.h>
 #include "FreeRTOS.h"
+#include "queue.h"
 #include "task.h"
 #include "sonar.h"
+#include "link-head.h"
 
 static TaskHandle_t sonar;
+static TaskHandle_t link;
+static QueueHandle_t dataFlow;
 
 static void systemInit(void);
 int main(void);
@@ -16,7 +20,9 @@ int main(void);
 int main()
 {
   systemInit();
-  xTaskCreate(sonarTask, "example", 1024, NULL, tskIDLE_PRIORITY, &sonar);
+  dataFlow = xQueueCreate(16, sizeof(SonarData_t));
+  xTaskCreate(headTask,  "head",    1024, (void *)dataFlow, tskIDLE_PRIORITY, &link);
+  xTaskCreate(sonarTask, "example", 1024, (void *)dataFlow, tskIDLE_PRIORITY, &sonar);
   vTaskStartScheduler();
   while(1);
 }
