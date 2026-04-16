@@ -13,11 +13,11 @@ typedef struct {
 } SonarData_t;
 
 /**
- * A: 0 C5 C4 C3 C2 - 43 C3 23 A3
- * D: 0 C4 C4 C3 C2
- * C: 0 C4 C3 C3 C2
- * B: 0 C4 C3 C2 C2
- * -: 
+ * - - - - : 0 C4 C3 C2 C1 - 83 43 C3 23
+ * A - - - : 0 C5 C4 C3 C2 - 43 C3 23 A3
+ * - - - D : 0 C4 C4 C3 C2
+ * - - C - : 0 C4 C3 C3 C2
+ * - B - - : 0 C4 C3 C2 C2
  */
 
 void sonarTask(void * p);
