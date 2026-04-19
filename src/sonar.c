@@ -6,6 +6,11 @@
 #include "sonar.h"
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "log.h"
+
+#define TAG "-PA-"
+static int const VERSION_MAJOR = 0;
+static int const VERSION_MINOR = 1;
 
 static QueueHandle_t bits;
 static QueueHandle_t words;
@@ -26,7 +31,8 @@ void sonarTask(void * p)
   bits = xQueueCreate(64, sizeof(uint16_t));
 
   initHW();
-
+  static char const * const date = __DATE__;
+  logI(TAG, "sonar module v%i.%i built@%s", VERSION_MAJOR, VERSION_MINOR, date);
   while(1)
   {
     uint16_t time;
@@ -59,6 +65,7 @@ static void onReceive(uint64_t value)
   data.ch2 = (uint8_t)((value >> 16) & 0xFF);
   data.ch3 = (uint8_t)((value >>  8) & 0xFF);
   data.ch4 = (uint8_t)((value >>  0) & 0xFF);
+  logV(TAG, "frame: %i %02X %02X %02X %02X", data.start, data.ch1, data.ch2, data.ch3, data.ch4);
   if(words != NULL) xQueueSend(words, &data, 0);
 }
 

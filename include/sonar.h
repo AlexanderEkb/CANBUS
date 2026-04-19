@@ -1,7 +1,8 @@
 /**
  * 
  */
-
+#ifndef __SONAR_H__
+#define __SONAR_H__
 #include <stdint.h>
 
 typedef struct {
@@ -21,3 +22,5 @@ typedef struct {
  */
 
 void sonarTask(void * p);
+
+#endif /* __SONAR_H__ */

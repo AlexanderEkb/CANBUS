@@ -1,39 +1,50 @@
-PA0
-PA1
-PA2
-PA3
-PA4
-PA5
-PA6
-PA7
-PA8   - Sonar
-PA9
-PA10
-PA11
-PA12
-PA13 - SWDIO
-PA14 - SWCLK
-PA15
+                                   Parking
+RPM ──────────────────╮ ╭───────── brake
+                      │ │    
+Speed ──────────────╮ │ │ ╭──────────── Ambient T°   
+                    │ │ │ │ ╭────────── Engine T°
+AT selector         │ │ │ │ │ 
+position (5) ─────╮ │ │ │ │ │           Door
+                  │ │ │ │ │ │ ╭──────── sensors (4)
+Parking           │ │ │ │ │ │ │
+assist  ────────╮ │ │ │ │ │ │ │ ╭────── Power (IGN),
+data in         │ │ │ │ │ │ │ │ │       GND
+                ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓  
+            ╭────────────────────────╮
+            │                        │
+            │                        │
+            │                        │
+            │                        │─→ SWD (4)
+            │                        │─→ UART (console) (3)
+            │                        │
+            │                        │
+            │                        │
+            ╰────────────────────────╯
+                │ │ │ │ │ │ │ │
+Parking         │ │ ↓ ↓ ↓ ↓ │ ╰───→ CAN (2)
+assist  ←───────╯ │         │
+power (+12)       │         ╰─────→ Radio link (2)
+                  │
+Camera  ←─────────╯
+power (+12)      
 
-PB0
-PB1
-PB2 - BOOT1
-PB3
-PB4
-PB5
-PB6
-PB7
-PB8
-PB9
-PB10
-PB11
-PB12
-PB13
-PB14
-PB15
+PA0               PB0
+PA1               PB1
+PA2               PB2 - BOOT1
+PA3               PB3
+PA4               PB4
+PA5               PB5
+PA6               PB6 - Log TX
+PA7               PB7 - Log RX
+PA8   - Sonar     PB8
+PA9               PB9
+PA10              PB10
+PA11              PB11
+PA12              PB12
+PA13 - SWDIO      PB13              PC13
+PA14 - SWCLK      PB14              PC14
+PA15              PB15              PC15
 
-PC13
-PC14
-PC15
 
-TIM1  - Sonar
+TIM1    - Sonar
+USART1  - Log/console
