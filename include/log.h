@@ -6,10 +6,10 @@
 
 #include <stdint.h>
 
-#define logV(T, F, ...) _log(LL_VERBOSE, T, F, __VA_ARGS__)
-#define logI(T, F, ...) _log(LL_INFO, T, F, __VA_ARGS__)
-#define logW(T, F, ...) _log(LL_WARNING, T, F, __VA_ARGS__)
-#define logE(T, F, ...) _log(LL_ERROR, T, F, __VA_ARGS__)
+#define logV(T, F, ...) _log(LL_VERBOSE, T, F, ##__VA_ARGS__)
+#define logI(T, F, ...) _log(LL_INFO, T, F, ##__VA_ARGS__)
+#define logW(T, F, ...) _log(LL_WARNING, T, F, ##__VA_ARGS__)
+#define logE(T, F, ...) _log(LL_ERROR, T, F, ##__VA_ARGS__)
 
 typedef enum {
   LL_VERBOSE  = 0,

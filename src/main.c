@@ -11,6 +11,9 @@
 #include "sonar.h"
 #include "link-head.h"
 #include "log.h"
+#include "buffer.h"
+
+#define TAG "MAIN"
 
 static TaskHandle_t sonar;
 static TaskHandle_t link;
@@ -23,9 +26,14 @@ int main()
 {
   systemInit();
   logInit();
-  dataFlow = xQueueCreate(16, sizeof(SonarData_t));
-  xTaskCreate(headTask,  "head",    1024, (void *)dataFlow, tskIDLE_PRIORITY, &link);
-  xTaskCreate(sonarTask, "example", 1024, (void *)dataFlow, tskIDLE_PRIORITY, &sonar);
+  dataFlow = xQueueCreate(16, sizeof(Buffer_t *));
+  if(dataFlow == NULL)
+  {
+    logE(TAG, "Unable to create the main queue!");
+  } else {
+    xTaskCreate(headTask,  "head",    1024, (void *)dataFlow, tskIDLE_PRIORITY, &link);
+    xTaskCreate(sonarTask, "example", 1024, (void *)dataFlow, tskIDLE_PRIORITY, &sonar);
+  }
   vTaskStartScheduler();
   while(1);
 }
@@ -40,4 +48,34 @@ static void systemInit()
 
   rcc_periph_clock_enable(RCC_AFIO);
   gpio_primary_remap(AFIO_MAPR_SWJ_CFG_JTAG_OFF_SW_ON, AFIO_MAPR_USART1_REMAP);
+}
+
+void nmi_handler()
+{
+  while(1);
+}
+
+void hard_fault_handler()
+{
+  while(1);
+}
+
+void mem_manage_handler()
+{
+  while(1);
+}
+
+void bus_fault_handler()
+{
+  while(1);
+}
+
+void usage_fault_handler()
+{
+  while(1);
+}
+
+void debug_monitor_handler()
+{
+  while(1);
 }

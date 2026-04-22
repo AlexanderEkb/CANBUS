@@ -7,27 +7,24 @@
 #include "libopencm3/cm3/nvic.h"
 #include "FreeRTOS.h"
 #include "queue.h"
-
-#define CON(A, B) A##B
+#include "macros.h"
 
 #define LOG_USART 1
-#define USART_GPIO B
-#define USART_RX_PIN 7
-#define USART_TX_PIN 6
+#define LOG_GPIO B
+#define LOG_RX_PIN 7
+#define LOG_TX_PIN 6
 
-#define _GPIO_PERIPH(A) CON(GPIO, A)
-#define _GPIO_RCC(A) CON(RCC_GPIO, A)
-#define _GPIO_PIN(A) CON(GPIO, A)
-#define _USART_PERIPH(A) CON(USART, A)
-#define _USART_RCC(A) CON(RCC_USART, A)
 #define BUFFER_SIZE (80)
 
-static enum rcc_periph_clken const GPIO_RCC = _GPIO_RCC(USART_GPIO);
-static uint32_t const GPIO = _GPIO_PERIPH(USART_GPIO);
-static uint16_t const GPIO_RX = _GPIO_PIN(USART_RX_PIN);
-static uint16_t const GPIO_TX = _GPIO_PIN(USART_TX_PIN);
+static enum rcc_periph_clken const GPIO_RCC = _GPIO_RCC(LOG_GPIO);
+static uint32_t const GPIO = _GPIO_PERIPH(LOG_GPIO);
+static uint16_t const GPIO_RX = _GPIO_PIN(LOG_RX_PIN);
+static uint16_t const GPIO_TX = _GPIO_PIN(LOG_TX_PIN);
 static uint32_t const USART = _USART_PERIPH(LOG_USART);
 static enum rcc_periph_clken const USART_RCC = _USART_RCC(LOG_USART);
+
+static uint32_t const MAJOR_VERSION = 0;
+static uint32_t const MINOR_VERSION = 1;
 #ifdef COLOR_LOG
 typedef char * ColorCode_t;
 static uint32_t const COLOR_TABLE[4] = {96, 37, 93, 91};
@@ -54,12 +51,13 @@ void logInit()
   usart_enable_rx_interrupt(USART);
   usart_disable_tx_interrupt(USART);
   nvic_clear_pending_irq(NVIC_USART1_IRQ);
+  nvic_set_priority(NVIC_USART1_IRQ, 239);
   nvic_enable_irq(NVIC_USART1_IRQ);
   usart_enable(USART);
 
   /* other stuff */
   outbound = xQueueCreate(1024, sizeof(char));
-  _puts("hello!\r\n");
+  _puts("███ SuperDuperModularChineseRadioFunctionExtender v%i.%i███\r\n", MAJOR_VERSION, MINOR_VERSION);
 }
 
 void logLevel(LogLevel_t l)
@@ -116,6 +114,7 @@ void usart1_isr()
     portBASE_TYPE foo;
     if(xQueueReceiveFromISR(outbound, &c, &foo)) {
       usart_send(USART, c);
+      // if(xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) portYIELD_FROM_ISR(foo);
     } else {
       usart_disable_tx_interrupt(USART);
     }
